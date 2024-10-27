@@ -26,9 +26,14 @@ if (flutterVersionName == null) {
     flutterVersionName = "1.0"
 }
 
+//! when the local.properties file doesn't contain the flutter.minSdkVersion,
+//! the defulat flutter.minSdkVerion of Flutter SDK will be used.
 def flutterMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
 if (flutterMinSdkVersion == null) {
     flutterMinSdkVersion = flutter.minSdkVersion
+} else {
+    //? Be sure theat the value is not null before converting to integer.
+    flutterMinSdkVersion = flutterMinSdkVersion.toInteger()
 }
 
 android {

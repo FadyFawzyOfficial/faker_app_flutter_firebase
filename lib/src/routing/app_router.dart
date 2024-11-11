@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../screens/custom_profile_screen.dart';
 import '../screens/custom_sign_in_screen.dart';
+import 'go_router_refresh_stream.dart';
 
 enum AppRoute {
   signIn,
@@ -27,6 +28,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       }
       return null;
     },
+    refreshListenable: GoRouterRefreshStream(
+      FirebaseAuth.instance.authStateChanges(),
+    ),
     routes: [
       GoRoute(
         path: '/sign-in',

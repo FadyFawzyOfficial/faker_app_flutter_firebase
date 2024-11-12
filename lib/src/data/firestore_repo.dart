@@ -14,11 +14,9 @@ class FirestoreRepo {
     required String title,
     required String company,
   }) async {
-    final jobDoc = await _firestore.collection('jobs').add({
-      'uid': uid,
-      'title': title,
-      'company': company,
-    });
+    final jobDoc = await _firestore
+        .collection('jobs')
+        .add(Job(uid: uid, title: title, company: company).toMap());
     debugPrint(jobDoc.id);
   }
 

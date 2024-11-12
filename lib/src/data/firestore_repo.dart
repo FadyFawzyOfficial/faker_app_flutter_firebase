@@ -19,6 +19,8 @@ class FirestoreRepo {
     });
     debugPrint(jobDoc.id);
   }
+
+  Query<Map<String, dynamic>> get jobsQuery => _firestore.collection('jobs');
 }
 
 final firestoreRepoProvider =

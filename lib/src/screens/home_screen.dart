@@ -54,10 +54,11 @@ class JobsListView extends ConsumerWidget {
         return Dismissible(
           key: Key(doc.id),
           background: const ColoredBox(color: Colors.red),
-          onDismissed: (_) => firestoreRepo.deleteJob(jobId: doc.id),
+          onDismissed: (_) =>
+              firestoreRepo.deleteJob(uid: user.uid, jobId: doc.id),
           child: ListTile(
             title: Text(job.title),
-            subtitle: Text(job.uid),
+            subtitle: Text(job.company),
             onTap: () {
               final faker = Faker();
               final title = faker.job.title();

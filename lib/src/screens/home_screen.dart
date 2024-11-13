@@ -44,8 +44,9 @@ class JobsListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final firestoreRepo = ref.watch(firestoreRepoProvider);
+    final user = ref.watch(firebaseAuthProvider).currentUser;
     return FirestoreListView<Job>(
-      query: firestoreRepo.jobsQuery,
+      query: firestoreRepo.jobsQuery(uid: user!.uid),
       itemBuilder: (BuildContext context, QueryDocumentSnapshot<Job> doc) {
         final job = doc.data();
         return Dismissible(
@@ -54,7 +55,7 @@ class JobsListView extends ConsumerWidget {
           onDismissed: (_) => firestoreRepo.deleteJob(jobId: doc.id),
           child: ListTile(
             title: Text(job.title),
-            subtitle: Text(job.company),
+            subtitle: Text(job.uid),
             onTap: () {
               final faker = Faker();
               final title = faker.job.title();

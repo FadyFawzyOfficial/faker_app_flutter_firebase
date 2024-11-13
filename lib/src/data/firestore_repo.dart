@@ -30,10 +30,15 @@ class FirestoreRepo {
   Future<void> deleteJob({required String jobId}) async =>
       await _firestore.doc('jobs/$jobId').delete();
 
-  Query<Job> get jobsQuery => _firestore.collection('jobs').withConverter(
-        fromFirestore: (snapshot, options) => Job.fromMap(snapshot.data()!),
-        toFirestore: (job, options) => job.toMap(),
-      );
+  Query<Job> jobsQuery({required String uid}) {
+    return _firestore
+        .collection('jobs')
+        .withConverter(
+          fromFirestore: (snapshot, options) => Job.fromMap(snapshot.data()!),
+          toFirestore: (job, options) => job.toMap(),
+        )
+        .where('uid', isEqualTo: uid);
+  }
 }
 
 final firestoreRepoProvider =

@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
+import 'package:cloud_firestore/cloud_firestore.dart'
+    show FieldValue, Timestamp;
 import 'package:equatable/equatable.dart';
 
 /// Model class for documents in the jobs collection
@@ -18,10 +19,11 @@ class Job extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap([FieldValue? timestamp]) {
     return {
       'title': title,
       'company': company,
+      if (timestamp != null && createdDate == null) 'createdDate': timestamp,
       if (createdDate != null) 'createdDate': Timestamp.fromDate(createdDate!),
     };
   }

@@ -13,9 +13,9 @@ class FirestoreRepo {
     required String title,
     required String company,
   }) async =>
-      await _firestore
-          .collection('users/$uid/jobs')
-          .add(Job(title: title, company: company).toMap());
+      await _firestore.collection('users/$uid/jobs').add(
+          Job(title: title, company: company)
+              .toMap(FieldValue.serverTimestamp()));
 
   Future<void> updateJob({
     required String jobId,
@@ -23,9 +23,10 @@ class FirestoreRepo {
     required String title,
     required String company,
   }) async =>
-      await _firestore
-          .doc('users/$uid/jobs/$jobId')
-          .update(Job(title: title, company: company).toMap());
+      await _firestore.doc('users/$uid/jobs/$jobId').update(Job(
+            title: title,
+            company: company,
+          ).toMap());
 
   Future<void> deleteJob({required String uid, required String jobId}) async =>
       await _firestore.doc('users/$uid/jobs/$jobId').delete();

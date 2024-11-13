@@ -58,6 +58,12 @@ class JobsListView extends ConsumerWidget {
           child: ListTile(
             title: Text(job.title),
             subtitle: Text(job.company),
+            trailing: job.createdDate != null
+                ? Text(
+                    '${job.createdDate}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  )
+                : null,
             onTap: () {
               final faker = Faker();
               final title = faker.job.title();

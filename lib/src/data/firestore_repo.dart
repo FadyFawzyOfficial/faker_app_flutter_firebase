@@ -32,10 +32,13 @@ class FirestoreRepo {
       await _firestore.doc('users/$uid/jobs/$jobId').delete();
 
   Query<Job> jobsQuery({required String uid}) {
-    return _firestore.collection('users/$uid/jobs').withConverter(
+    return _firestore
+        .collection('users/$uid/jobs')
+        .withConverter(
           fromFirestore: (snapshot, options) => Job.fromMap(snapshot.data()!),
           toFirestore: (job, options) => job.toMap(),
-        );
+        )
+        .orderBy('createdDate', descending: true);
   }
 }
 

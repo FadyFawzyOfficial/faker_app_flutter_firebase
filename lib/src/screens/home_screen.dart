@@ -48,7 +48,22 @@ class JobsListView extends ConsumerWidget {
       query: firestoreRepo.jobsQuery,
       itemBuilder: (BuildContext context, QueryDocumentSnapshot<Job> doc) {
         final job = doc.data();
-        return ListTile(title: Text(job.title), subtitle: Text(job.company));
+        return ListTile(
+          title: Text(job.title),
+          subtitle: Text(job.company),
+          onTap: () {
+            final faker = Faker();
+            final title = faker.job.title();
+            final company = faker.company.name();
+            final user = ref.read(firebaseAuthProvider).currentUser;
+            firestoreRepo.updateJob(
+              jobId: doc.id,
+              uid: user!.uid,
+              title: title,
+              company: company,
+            );
+          },
+        );
       },
     );
   }

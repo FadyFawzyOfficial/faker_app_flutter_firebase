@@ -27,6 +27,9 @@ class FirestoreRepo {
           .doc('jobs/$jobId')
           .update(Job(uid: uid, title: title, company: company).toMap());
 
+  Future<void> deleteJob({required String jobId}) async =>
+      await _firestore.doc('jobs/$jobId').delete();
+
   Query<Job> get jobsQuery => _firestore.collection('jobs').withConverter(
         fromFirestore: (snapshot, options) => Job.fromMap(snapshot.data()!),
         toFirestore: (job, options) => job.toMap(),

@@ -47,6 +47,8 @@ class JobsListView extends ConsumerWidget {
     final user = ref.watch(firebaseAuthProvider).currentUser;
     return FirestoreListView<Job>(
       query: firestoreRepo.jobsQuery(uid: user!.uid),
+      errorBuilder: (context, error, stackTrace) =>
+          Center(child: Text('$error')),
       itemBuilder: (BuildContext context, QueryDocumentSnapshot<Job> doc) {
         final job = doc.data();
         return Dismissible(

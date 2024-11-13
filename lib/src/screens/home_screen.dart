@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faker/faker.dart' hide Job;
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,7 @@ class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(context, ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('My Jobs'), actions: [
         IconButton(
@@ -42,14 +41,14 @@ class JobsListView extends ConsumerWidget {
   const JobsListView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(context, ref) {
     final firestoreRepo = ref.watch(firestoreRepoProvider);
     final user = ref.watch(firebaseAuthProvider).currentUser;
     return FirestoreListView<Job>(
       query: firestoreRepo.jobsQuery(uid: user!.uid),
-      errorBuilder: (context, error, stackTrace) =>
-          Center(child: Text('$error')),
-      itemBuilder: (BuildContext context, QueryDocumentSnapshot<Job> doc) {
+      errorBuilder: (_, error, __) => Center(child: Text('$error')),
+      emptyBuilder: (_) => const Center(child: Text('No data')),
+      itemBuilder: (_, doc) {
         final job = doc.data();
         return Dismissible(
           key: Key(doc.id),
